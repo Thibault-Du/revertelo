@@ -30,7 +30,7 @@ public class MainScreen extends JLayeredPane implements MouseListener {
 		int frameWidth = 800;
 
 		// Labels
-		welcome = new JLabel("Welcome to Reversi/Otthelo Game");
+		welcome = new JLabel("Welcome to Reversi Game");
 		continueGame = new JLabel("  Continue");
 		newGame = new JLabel("New Game");
 		settings = new JLabel("   Settings");
@@ -79,9 +79,9 @@ public class MainScreen extends JLayeredPane implements MouseListener {
 		menuesPanel.add(help);
 		menuesPanel.add(exit);
 
-		add(bgPanel, 0);
-		add(menuesPanel, 1);
-		add(welcomePanel, 1);
+		add(bgPanel, new Integer(0));
+		add(menuesPanel, new Integer(1));
+		add(welcomePanel, new Integer(1));
 
 		welcomePanel.setBounds(150, 10, 500, 100);
 		menuesPanel.setBounds(frameWidth / 3, frameHeight / 3, 500, 500);
