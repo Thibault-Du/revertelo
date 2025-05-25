@@ -8,7 +8,7 @@ import java.util.Random;
  * Class which represents computer player which extends Player class
  */
 public class ComputerPlayer extends Player {
-	private int MaxDepth;
+	private final int MaxDepth;
 	
 	/**
 	 * constructor
@@ -16,20 +16,9 @@ public class ComputerPlayer extends Player {
 	 * @param noImageID just like {@link Player}
 	 * @param name just like {@link Player}
 	 */
-	public ComputerPlayer(float notAllowedHue, int noImageID, String name) {
+	public ComputerPlayer(float notAllowedHue, int noImageID, String name, int maxDepth) {
 		super(notAllowedHue, noImageID, name);
-		switch(Stats.getDifficulty())
-		{
-		case Penny:
-			MaxDepth = 3;
-			break;
-		case Lenard:
-			MaxDepth = 4;
-			break;
-		case Sheldon:
-			MaxDepth = 5;
-			break;
-		}
+		this.MaxDepth = maxDepth;
 	}
 
 	/**

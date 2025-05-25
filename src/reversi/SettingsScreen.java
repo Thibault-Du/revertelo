@@ -79,7 +79,6 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 
 		//Panels
 		JPanel headline = new JPanel(); //Headline panel
-		JPanel bgPanel = new JPanel(); //background panel
 		JPanel boardSizePanel = new JPanel(); //Board size panel
 		JPanel btnPanel = new JPanel(); //Button panel
 		JPanel playersPanel = new JPanel(); //Numbers  of players panel
@@ -88,22 +87,11 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 
 		//Layouts
 		headline.setLayout(new FlowLayout());
-		bgPanel.setLayout(new GridBagLayout());
 		playersPanel.setLayout(new FlowLayout());
 		playersNamePanel.setLayout(new FlowLayout());
 		boardSizePanel.setLayout(new FlowLayout());
 		btnPanel.setLayout(new GridLayout());
 		difficultyPanel.setLayout(new FlowLayout());
-
-		try{
-			JLabel backgroundImage = new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("../Backgrounds/settings_background.jpg"))));
-			bgPanel.add(backgroundImage);
-		}
-		catch(IOException e){
-			System.out.println("file not exist");
-		}
-		bgPanel.setBounds(0, 0, 1000, 1000);
-		add(bgPanel, new Integer(0),0); //Background image
 
 		//Headline panel
 		back = new JLabel("Back");
@@ -148,10 +136,10 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 		player2.setText(Stats.getPlayer2().getName());
 		player2.setPreferredSize(new Dimension(10, 35));
 		player2.setFont(new Font("", Font.BOLD, 15));
-		notEq = new JLabel("•The names must be different");
+		notEq = new JLabel("ï¿½The names must be different");
 		notEq.setFont(new Font("Times New Roman",0,30));
 		notEq.setForeground(Color.RED);
-		notCom = new JLabel("•The names can't be Computer");
+		notCom = new JLabel("ï¿½The names can't be Computer");
 		notCom.setFont(new Font("Times New Roman",0,30));
 		notCom.setForeground(Color.RED);
 		playersNamePanel.add(names);
@@ -281,7 +269,7 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 					else
 					{
 						Stats.setPlayer1(new Player(-1,-1,player1.getText()));
-						Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer"));
+						Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer", 5));
 						Stats.setBoard(null);
 						Random rand = new Random();
 						int r = rand.nextInt(2);
@@ -318,8 +306,8 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 				}
 				case(2):
 				{
-					Stats.setPlayer1(new ComputerPlayer(-1, -1,"Computer 1"));
-					Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer 2"));
+					Stats.setPlayer1(new ComputerPlayer(-1, -1,"Computer 1", 5));
+					Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer 2", 5));
 					Stats.setBoard(null);
 					Random rand = new Random();
 					int r = rand.nextInt(2);
