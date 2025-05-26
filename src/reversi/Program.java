@@ -2,9 +2,7 @@ package reversi;
 
 import java.util.Random;
 
-import game.ComputerPlayer;
-import game.Player;
-import game.Stats;
+import game.*;
 import game.Stats.DifficultyType;
 
 public class Program {
@@ -13,9 +11,10 @@ public class Program {
 		Stats.setM(8);
 		Stats.setN(8);
 		Stats.setDifficulty(DifficultyType.Penny);
-		Stats.setPlayer1(new ComputerPlayer(-1, -1,"Computer1", 5));
+		Stats.setPlayer1(new CPMinMax(-1, -1,"Computer1", 5));
 		//Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer"));
-		Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer2", 3));
+		Stats.setPlayer2(new CPAlphaBeta(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer2", 5));
+		//Stats.setPlayer2(new CPMinMax(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer2", 5));
 
 		Random rand = new Random();
 		int r = rand.nextInt(2);

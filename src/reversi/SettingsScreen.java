@@ -1,5 +1,6 @@
 package reversi;
 
+import game.CPAlphaBeta;
 import game.ComputerPlayer;
 import game.Player;
 import game.Stats;
@@ -269,7 +270,7 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 					else
 					{
 						Stats.setPlayer1(new Player(-1,-1,player1.getText()));
-						Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer", 5));
+						Stats.setPlayer2(new CPAlphaBeta(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer", 5));
 						Stats.setBoard(null);
 						Random rand = new Random();
 						int r = rand.nextInt(2);
@@ -306,8 +307,8 @@ public class SettingsScreen extends JLayeredPane implements MouseListener{
 				}
 				case(2):
 				{
-					Stats.setPlayer1(new ComputerPlayer(-1, -1,"Computer 1", 5));
-					Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer 2", 5));
+					Stats.setPlayer1(new CPAlphaBeta(-1, -1,"Computer 1", 5));
+					Stats.setPlayer2(new CPAlphaBeta(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer 2", 5));
 					Stats.setBoard(null);
 					Random rand = new Random();
 					int r = rand.nextInt(2);
