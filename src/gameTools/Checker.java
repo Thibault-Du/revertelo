@@ -81,7 +81,7 @@ public class Checker extends JLabel {
 
 		g2d.setStroke(new BasicStroke((int) (0.1 * Math.min(width, height))));
 		g2d.setColor(circleColor);
-		g2d.drawOval((int) (0.025 * width), (int) (0.025 * height), (int) (0.95 * width), (int) (0.95 * height));
+		g2d.fillOval((int) (0.025 * width), (int) (0.025 * height), (int) (0.95 * width), (int) (0.95 * height));
 		g2d.dispose();
 
 		BufferedImage scaled = new BufferedImage((int) (width * 0.6), (int) (height * 0.6), BufferedImage.TYPE_INT_ARGB);
