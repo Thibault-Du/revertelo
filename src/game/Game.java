@@ -156,7 +156,7 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
 		bottomPanel.validate();
 		bottomPanel.setPreferredSize(bottomPanel.getPreferredSize());
 
-		timer = new Timer(1200, this);
+		timer = new Timer(10, this);
 		timer.start();
 
 		add(fatherPanel);
