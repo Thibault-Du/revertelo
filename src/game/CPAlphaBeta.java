@@ -27,10 +27,16 @@ public class CPAlphaBeta extends ComputerPlayer {
      * @param rowColumnIndexes An indexes which represents the x and y movement of the computer that will be changed in the algorithm.
      * @param realOpponent The opponent of this player.
      */
+    public static int nodeCount = 0;
     public void GetNextMove(Player[][] boardPlayer, Integer[] rowColumnIndexes, Player realOpponent)
     {
+
         GetNextMove(boardPlayer, realOpponent, true, 1, Integer.MIN_VALUE, Integer.MAX_VALUE, rowColumnIndexes);
     }
+    public static void resetNodeCount() {
+        nodeCount = 0;
+    }
+
 
     /**
      * Gets the next movement of the computer player in recursion.
@@ -45,6 +51,7 @@ public class CPAlphaBeta extends ComputerPlayer {
      */
     private int GetNextMove(Player[][] boardPlayer, Player realOpponent, boolean isMaximizing, int currentDepth, int alpha, int beta, Integer[] rowColumnIndexes)
     {
+        nodeCount++;
         rowColumnIndexes[0] = 0;
         rowColumnIndexes[1] = 0;
 

@@ -28,6 +28,10 @@ import javax.swing.Timer;
 
 import reversi.MainScreen;
 import gameTools.Board;
+import game.CPMinMax;
+import game.CPAlphaBeta;
+import game.CPMCTS;
+
 
 /**
  * A class which holds the game frame and all of its sub components.
@@ -302,18 +306,46 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
 	boolean runningMove = false;
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(!runningMove && currentPlayerTurn instanceof ComputerPlayer && !gameIsOver)
-		{
+		if (!runningMove && currentPlayerTurn instanceof ComputerPlayer && !gameIsOver) {
 			runningMove = true;
+
+			// RESET des compteurs
+			if (currentPlayerTurn instanceof CPMinMax)
+				CPMinMax.resetNodeCount();
+			else if (currentPlayerTurn instanceof CPAlphaBeta)
+				CPAlphaBeta.resetNodeCount();
+
 			Integer[] rowColumnIndexes = new Integer[] {-1, -1};
-			((ComputerPlayer) currentPlayerTurn).GetNextMove(board.getBoardByPlayers(), rowColumnIndexes, (currentPlayerTurn == player1 ? player2 : player1));
-			if(board.computerPlayMove(currentPlayerTurn, rowColumnIndexes[1], rowColumnIndexes[0]))
+
+			// Mesure du temps
+			long start = System.nanoTime();
+			((ComputerPlayer) currentPlayerTurn).GetNextMove(
+					board.getBoardByPlayers(),
+					rowColumnIndexes,
+					(currentPlayerTurn == player1 ? player2 : player1)
+			);
+			long duration = System.nanoTime() - start;
+
+			// Affichage statistiques
+			System.out.println("Temps de réflexion : " + (duration / 1_000_000.0) + " ms");
+
+			if (currentPlayerTurn instanceof CPMinMax)
+				System.out.println("Nœuds explorés (MinMax) : " + CPMinMax.nodeCount);
+			else if (currentPlayerTurn instanceof CPAlphaBeta)
+				System.out.println("Nœuds explorés (AlphaBeta) : " + CPAlphaBeta.nodeCount);
+
+
+			// Joue le coup
+			if (board.computerPlayMove(currentPlayerTurn, rowColumnIndexes[1], rowColumnIndexes[0]))
 				switchPlayer();
+
 			runningMove = false;
 		}
-		if(gameIsOver)
+
+		if (gameIsOver)
 			timer.stop();
 	}
+
 
 	public Board getBoard() {
 		return board;
