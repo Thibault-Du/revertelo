@@ -50,10 +50,9 @@ public class CPMCTS extends ComputerPlayer{
     public static int[] uctSearch(Player[][] s0, Player currentPlayer, Player opponent) {
         Node root = new Node(copyBoard(s0), null, getActions(s0, currentPlayer, opponent), null);
 
-
         for (int i = 0; i < BUDGET; i++) {
-            Node v = treePolicy(root);
-            double delta = defaultPolicy(v.state, player);
+            Node v = treePolicy(root, currentPlayer, opponent);
+            double delta = defaultPolicy(v.state, currentPlayer);
             backup(v, delta);
         }
 
@@ -75,25 +74,25 @@ public class CPMCTS extends ComputerPlayer{
         return new ArrayList<>();
     }
 
-    private static Node treePolicy(Node v) {
-        while (!v.isTerminal()) {
-            if (!v.isFullyExpanded()) return expand(v);
+    private static Node treePolicy(Node v, Player player, Player opponent) {
+        while (!v.isTerminal(player, opponent)) {
+            if (!v.isFullyExpanded()) return expand(v, player, opponent);
             else v = bestChild(v, C);
         }
         return v;
     }
 
-    private static Node expand(Node v) {
+    private static Node expand(Node v, Player player, Player opponent) {
         int[] a = v.untriedActions.remove(0);
-        char[][] nextState = applyAction(v.state, a);
-        Node child = new Node(nextState, v, getActions(nextState), a);
+        Player[][] nextState = applyAction(v.state, a);
+        Node child = new Node(nextState, v, getActions(nextState, player, opponent), a);
         v.children.add(child);
         return child;
     }
 
-    private static char[][] applyAction(char[][] state, int[] a) {
+    private static Player[][] applyAction(Player[][] state, int[] a) {
         // TODO: appliquer un coup à un plateau
-        return new char[0][0];
+        return new Player[0][0];
     }
 
     @Override
