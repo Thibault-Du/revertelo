@@ -44,7 +44,7 @@ public class CPMCTS extends ComputerPlayer{
     }
 
     private static final int BUDGET = 1000;
-    private static final double C = 2;
+    private static final double C = Math.sqrt(2);
 
     public int[] uctSearch(Player[][] s0, Player currentPlayer, Player opponent) {
         Node root = new Node(copyBoard(s0), null, getActions(s0, currentPlayer, opponent), null);
