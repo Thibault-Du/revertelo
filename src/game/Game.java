@@ -160,7 +160,7 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
 		bottomPanel.validate();
 		bottomPanel.setPreferredSize(bottomPanel.getPreferredSize());
 
-		timer = new Timer(10, this);
+		timer = new Timer(1, this);
 		timer.start();
 
 		add(fatherPanel);
@@ -331,6 +331,8 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
 
 			if (currentPlayerTurn instanceof CPMinMax)
 				System.out.println("Nœuds explorés (MinMax) : " + CPMinMax.nodeCount);
+			else if (currentPlayerTurn instanceof CPAlphaBeta)
+				System.out.println("Nœuds explorés (AlphaBeta) : " + CPAlphaBeta.nodeCount);
 			else if (currentPlayerTurn instanceof CPAlphaBeta)
 				System.out.println("Nœuds explorés (AlphaBeta) : " + CPAlphaBeta.nodeCount);
 

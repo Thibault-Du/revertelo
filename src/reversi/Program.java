@@ -12,7 +12,7 @@ public class Program {
 		Stats.setN(8);
 		Stats.setDifficulty(DifficultyType.Penny);
 		Stats.setPlayer1(new CPAlphaBeta(-1, -1,"Computer1", 5));
-		//Stats.setPlayer2(new Player(-1, -1,"Computer2"));
+		//Stats.setPlayer1(new Player(-1, -1,"Computer1"));
 		//Stats.setPlayer2(new ComputerPlayer(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer"));
 		Stats.setPlayer2(new CPMCTS(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer2"));
 		//Stats.setPlayer2(new CPMinMax(Stats.getPlayer1().getHue(), Stats.getPlayer1().getImageID(),"Computer2", 5));

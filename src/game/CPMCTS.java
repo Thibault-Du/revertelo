@@ -43,8 +43,8 @@ public class CPMCTS extends ComputerPlayer{
 
     }
 
-    private static final int BUDGET = 5000;
-    private static final double C = Math.sqrt(2);
+    private static final int BUDGET = 1000;
+    private static final double C = 2;
 
     public int[] uctSearch(Player[][] s0, Player currentPlayer, Player opponent) {
         Node root = new Node(copyBoard(s0), null, getActions(s0, currentPlayer, opponent), null);
@@ -55,6 +55,7 @@ public class CPMCTS extends ComputerPlayer{
             backup(v, delta);
         }
 
+        analyseArbre(root);
         return bestChild(root, 0).action;
     }
 
@@ -177,43 +178,45 @@ public class CPMCTS extends ComputerPlayer{
     }
 
 
+    private static final int NB_SIMU = 20;
+
     private double defaultPolicy(Player[][] state, Player player, Player opponent) {
+        double totalResult = 0.0;
+
+        for (int i = 0; i < NB_SIMU; i++) {
+            totalResult += simulateRandomGame(state, player, opponent);
+        }
+
+        return totalResult;
+    }
+
+    private double simulateRandomGame(Player[][] state, Player player, Player opponent) {
         Player[][] simulation = copyBoard(state);
         Random rand = new Random();
         Player current = player;
 
-        while (!getActions(simulation, player, opponent).isEmpty() && !getActions(simulation, opponent, player).isEmpty()) {
-            Player opp;
-            if(current.equals(player)) {
-                opp = opponent;
-            } else {
-                opp = player;
-            }
+        while (!getActions(simulation, current, current == player ? opponent : player).isEmpty()) {
+            Player opp = (current == player) ? opponent : player;
             List<int[]> actions = getActions(simulation, current, opp);
             if (!actions.isEmpty()) {
                 int[] move = actions.get(rand.nextInt(actions.size()));
                 simulation = applyAction(simulation, move, current);
             }
-
-            if(current.equals(player)) {
-                current = opponent;
-            } else {
-                current = player;
-            }
+            current = opp;
         }
 
         int playerScore = 0;
         int opponentScore = 0;
-        int size = simulation.length;
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < simulation.length; i++) {
+            for (int j = 0; j < simulation[0].length; j++) {
                 if (simulation[i][j] == player) playerScore++;
                 else if (simulation[i][j] == opponent) opponentScore++;
             }
         }
 
-        return playerScore - opponentScore;
+        if (playerScore > opponentScore) return 1;
+        else if (playerScore < opponentScore) return -1;
+        else return 0;
     }
 
     private void backup(Node v, double delta) {
@@ -223,5 +226,44 @@ public class CPMCTS extends ComputerPlayer{
             v = v.parent;
         }
     }
+
+    public void analyseArbre(Node root) {
+        int totalNodes = 0;
+        int maxDepth = 0;
+        int nbLeaf = 0;
+        Map<Integer, Integer> nodesParLevel = new HashMap<>();
+
+        Queue<Map.Entry<Node, Integer>> queue = new LinkedList<>();
+        queue.add(new AbstractMap.SimpleEntry<>(root, 0));
+
+        while (!queue.isEmpty()) {
+            Map.Entry<Node, Integer> current = queue.poll();
+            Node node = current.getKey();
+            int depth = current.getValue();
+
+            totalNodes++;
+            maxDepth = Math.max(maxDepth, depth);
+            nodesParLevel.put(depth, nodesParLevel.getOrDefault(depth, 0) + 1);
+
+            if (!node.children.isEmpty()) {
+                for (Node child : node.children) {
+                    queue.add(new AbstractMap.SimpleEntry<>(child, depth + 1));
+                }
+            } else {
+                nbLeaf++;
+            }
+        }
+
+        System.out.println("----- MCTS Tree Analysis -----");
+        System.out.println("Profondeur arbre : " + maxDepth);
+        System.out.println("Nombre de niveau : " + nodesParLevel.size());
+        System.out.println("Nombre de feuille : " + nbLeaf);
+        System.out.println("Noeuds par level:");
+        for (int level : nodesParLevel.keySet()) {
+            System.out.println("  Level " + level + ": " + nodesParLevel.get(level));
+        }
+        System.out.println("--------------------------------");
+    }
+
 
 }
