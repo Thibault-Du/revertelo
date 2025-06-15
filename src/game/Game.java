@@ -235,6 +235,9 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
 		int player1Number = board.GetCheckerCount(player1);
 		int player2Number = board.GetCheckerCount(player2);
 
+		int score1 = board.GetCheckerCount(player1);
+		int score2 = board.GetCheckerCount(player2);
+		System.out.println("Score final : " + player1.getName() + " = " + score1 + ", " + player2.getName() + " = " + score2);
 		if(player1Number > player2Number)
 			JOptionPane.showMessageDialog(null, player1.getName() + " has won the Game!");
 		else if(player1Number < player2Number)
